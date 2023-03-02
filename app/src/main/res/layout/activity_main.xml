@@ -116,6 +116,7 @@
         app:layout_constraintTop_toBottomOf="@id/adicionarCelularEfab">
 
         <EditText
+            android:id="@+id/celularEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
@@ -210,6 +211,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" >
                 <EditText
+                    android:id="@+id/instituicaoFundamentalEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -227,6 +229,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" >
             <EditText
+                android:id="@+id/instituicaoMedioEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -245,11 +248,13 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
                 <EditText
+                    android:id="@+id/conclusaoGraduacaoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Ano de conclusão" />
                 <EditText
+                    android:id="@+id/instituicaoGraduacaoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -268,12 +273,14 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
                 <EditText
+                    android:id="@+id/conclusaoEspecializacaoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Ano de conclusão"
                      />
                 <EditText
+                    android:id="@+id/instituicaoEspecializacaoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -292,21 +299,25 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
                 <EditText
+                    android:id="@+id/conclusaoMestradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Ano de conclusão" />
                 <EditText
+                    android:id="@+id/instituicaoMestradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Instituição" />
                 <EditText
+                    android:id="@+id/monografiaMestradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Título de monografia" />
                 <EditText
+                    android:id="@+id/orientadorMestradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -325,21 +336,25 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
                 <EditText
+                    android:id="@+id/conclusaoDoutoradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Ano de conclusão" />
                 <EditText
+                    android:id="@+id/instituicaoDoutoradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Instituição" />
                 <EditText
+                    android:id="@+id/monografiaDoutradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="Título de monografia" />
                 <EditText
+                    android:id="@+id/orientadorDoutoradoEt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
