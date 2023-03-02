@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.core.view.isVisible
 import br.edu.ifsp.scl.ads.havagas.databinding.ActivityMainBinding
@@ -14,8 +15,6 @@ class MainActivity : AppCompatActivity() {
     private val activityMainBinding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-
-    private var adicionarCelularEstaAtivo: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                     fundamentalLl.visibility = View.VISIBLE
                 else {
                     fundamentalLl.visibility = View.GONE
-                    instituicaoFundamentalEt.setText("")
+                    anoFormacaoFundamentalEt.setText("")
                 }
             }
 
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     medioLl.visibility = View.VISIBLE
                 else {
                     medioLl.visibility = View.GONE
-                    instituicaoMedioEt.setText("")
+                    anoFormacaoMedioEt.setText("")
                 }
             }
 
@@ -98,8 +97,58 @@ class MainActivity : AppCompatActivity() {
                 val camposPreenchidos : String = retornaCamposPreenchidos()
                 Toast.makeText(this@MainActivity, camposPreenchidos, Toast.LENGTH_LONG).show()
             }
-        }
 
+            limparBt.setOnClickListener {
+                nomeEt.setText("")
+                emailEt.setText("")
+                emailAtualizacaoSw.isChecked = false
+                telefoneRg.clearCheck()
+                telefoneEt.setText("")
+                sexoRg.check(masculinoRb.id)
+                dataNascimentoEt.setText("")
+                celularEt.setText("")
+                celularLl.visibility = View.GONE
+                if (fundamentalCb.isChecked) {
+                    fundamentalCb.isChecked = false
+                    fundamentalLl.visibility = View.GONE
+                    anoFormacaoFundamentalEt.setText("")
+                }
+                if (medioCb.isChecked) {
+                    medioCb.isChecked = false
+                    medioLl.visibility = View.GONE
+                    anoFormacaoMedioEt.setText("")
+                }
+                if (graduacaoCb.isChecked){
+                    graduacaoCb.isChecked = false
+                    graduacaoLl.visibility = View.GONE
+                    instituicaoGraduacaoEt.setText("")
+                    conclusaoGraduacaoEt.setText("")
+                }
+                if (especializacaoCb.isChecked){
+                    especializacaoCb.isChecked = false
+                    especializacaoLl.visibility = View.GONE
+                    instituicaoEspecializacaoEt.setText("")
+                    conclusaoEspecializacaoEt.setText("")
+                }
+                if (mestradoCb.isChecked){
+                    mestradoCb.isChecked = false
+                    mestradoLl.visibility = View.GONE
+                    instituicaoMestradoEt.setText("")
+                    conclusaoMestradoEt.setText("")
+                    monografiaMestradoEt.setText("")
+                    orientadorMestradoEt.setText("")
+                }
+                if (doutoradoCb.isChecked){
+                    doutoradoCb.isChecked = false
+                    doutoradoLl.visibility = View.GONE
+                    instituicaoDoutoradoEt.setText("")
+                    conclusaoDoutoradoEt.setText("")
+                    monografiaDoutradoEt.setText("")
+                    orientadorDoutoradoEt.setText("")
+                }
+                vagasInteresseEt.setText("")
+            }
+        }
     }
 
     private fun retornaCamposPreenchidos() : String {
@@ -115,20 +164,17 @@ class MainActivity : AppCompatActivity() {
                 campos.add("Receber atualização de oportunidades: Sim")
             if (telefoneEt.text.isNotEmpty())
                 campos.add("Telefone: ${telefoneEt.text}")
-            if (comercialRb.isChecked)
-                campos.add("Tipo de telefone: ${comercialRb.text}")
-            if (residencialRb.isChecked)
-                campos.add("Tipo de telefone: ${residencialRb.text}")
+            if (telefoneRg.checkedRadioButtonId != -1) {
+                campos.add("Tipo de telefone: " +
+                        "${findViewById<RadioButton>(telefoneRg.checkedRadioButtonId).text}")
+            }
             if (celularLl.isVisible) {
                 if (celularEt.text.isNotEmpty())
                     campos.add("Celular: ${celularEt.text}")
             }
-            val sexo: String
-            if (masculinoRb.isChecked)
-                sexo = masculinoRb.text.toString()
-            else
-                sexo = femininoRb.text.toString()
-            campos.add("Sexo: ${sexo}")
+
+            campos.add("Sexo: ${findViewById<RadioButton>(sexoRg.checkedRadioButtonId).text}")
+
             if (dataNascimentoEt.text.isNotEmpty())
                 campos.add("Data de Nascimento: ${dataNascimentoEt.text}")
 
@@ -136,8 +182,8 @@ class MainActivity : AppCompatActivity() {
             var informacoesFormacao : MutableList<String> = mutableListOf()
             if (fundamentalCb.isChecked) {
                 formacao += "Fundamental"
-                if (instituicaoFundamentalEt.text.isNotEmpty())
-                    informacoesFormacao.add("Instituição: ${instituicaoFundamentalEt.text}")
+                if (anoFormacaoFundamentalEt.text.isNotEmpty())
+                    informacoesFormacao.add("Ano de formatura: ${anoFormacaoFundamentalEt.text}")
                 if (informacoesFormacao.isNotEmpty())
                     formacao += " (${informacoesFormacao.joinToString()})"
                 formacao += "; "
@@ -146,8 +192,8 @@ class MainActivity : AppCompatActivity() {
 
             if (medioCb.isChecked) {
                 formacao += "Médio"
-                if (instituicaoMedioEt.text.isNotEmpty())
-                    formacao += "Instituição: ${instituicaoMedioEt.text}"
+                if (anoFormacaoMedioEt.text.isNotEmpty())
+                    informacoesFormacao.add("Ano de formatura: ${anoFormacaoMedioEt.text}")
 
                 if (informacoesFormacao.isNotEmpty())
                     formacao += " (${informacoesFormacao.joinToString()})"
@@ -182,9 +228,9 @@ class MainActivity : AppCompatActivity() {
             if (mestradoCb.isChecked) {
                 formacao += "Mestrado"
                 if (conclusaoMestradoEt.text.isNotEmpty())
-                    informacoesFormacao.add("Ano de conclusão: ${conclusaoEspecializacaoEt.text}")
+                    informacoesFormacao.add("Ano de conclusão: ${conclusaoMestradoEt.text}")
                 if (instituicaoMestradoEt.text.isNotEmpty())
-                    informacoesFormacao.add("Instituição: ${instituicaoEspecializacaoEt.text}")
+                    informacoesFormacao.add("Instituição: ${instituicaoMestradoEt.text}")
                 if (monografiaMestradoEt.text.isNotEmpty())
                     informacoesFormacao.add("Título de monografia: ${monografiaMestradoEt.text}")
                 if (orientadorMestradoEt.text.isNotEmpty())
@@ -199,24 +245,29 @@ class MainActivity : AppCompatActivity() {
                 formacao += "Doutorado"
                 if (conclusaoDoutoradoEt.text.isNotEmpty())
                     informacoesFormacao.add("Ano de conclusão: ${conclusaoDoutoradoEt.text}")
-                if (instituicaoMestradoEt.text.isNotEmpty())
+                if (instituicaoDoutoradoEt.text.isNotEmpty())
                     informacoesFormacao.add("Instituição: ${instituicaoDoutoradoEt.text}")
-                if (monografiaMestradoEt.text.isNotEmpty())
+                if (monografiaDoutradoEt.text.isNotEmpty())
                     informacoesFormacao.add("Título de monografia: ${monografiaDoutradoEt.text}")
-                if (orientadorMestradoEt.text.isNotEmpty())
+                if (orientadorDoutoradoEt.text.isNotEmpty())
                     informacoesFormacao.add("Orientador: ${orientadorDoutoradoEt.text}")
                 if (informacoesFormacao.isNotEmpty())
                     formacao += " (${informacoesFormacao.joinToString()})"
+                formacao += "; "
                 informacoesFormacao.clear()
             }
 
-            if (formacao.isNotEmpty())
-                campos.add("Formação: ${formacao}")
+            if (formacao.isNotEmpty()) {
+                formacao = formacao.substring(0, formacao.lastIndexOf(';'))
+                campos.add("Formação: $formacao")
+            }
+
+            if (vagasInteresseEt.text.isNotEmpty())
+                campos.add("Vagas de interesse: ${vagasInteresseEt.text}")
+
             texto = campos.joinToString()
         }
-
         return texto
-
     }
 
 }
