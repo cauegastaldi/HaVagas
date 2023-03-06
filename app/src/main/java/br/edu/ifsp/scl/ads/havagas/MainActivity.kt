@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 nomeEt.setText("")
                 emailEt.setText("")
                 emailAtualizacaoSw.isChecked = false
-                telefoneRg.clearCheck()
+                telefoneRg.check(comercialRb.id)
                 telefoneEt.setText("")
                 sexoRg.check(masculinoRb.id)
                 dataNascimentoEt.setText("")
