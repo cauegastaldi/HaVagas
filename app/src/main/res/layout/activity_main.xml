@@ -221,7 +221,7 @@
             android:id="@+id/anoFormacaoFundamentalMedioEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="number"
             android:hint="Ano de formação" />
     </LinearLayout>
 
@@ -239,7 +239,7 @@
             android:id="@+id/conclusaoGraduacaoEspecializacaoEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="number"
             android:hint="Ano de conclusão" />
         <EditText
             android:id="@+id/instituicaoGraduacaoEspecializacaoEt"
@@ -263,7 +263,7 @@
             android:id="@+id/conclusaoMestradoDoutoradoEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="number"
             android:hint="Ano de conclusão" />
         <EditText
             android:id="@+id/instituicaoMestradoDoutoradoEt"

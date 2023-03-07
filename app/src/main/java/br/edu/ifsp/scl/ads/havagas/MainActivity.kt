@@ -1,9 +1,11 @@
 package br.edu.ifsp.scl.ads.havagas
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -25,6 +27,36 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         with (activityMainBinding) {
+
+            if (savedInstanceState != null) {
+                nomeEt.setText(savedInstanceState.getString("nome"))
+                emailEt.setText(savedInstanceState.getString("email"))
+                emailAtualizacaoSw.isChecked =
+                    savedInstanceState.getBoolean("receberAtualizacoesOportunidades") == true
+                telefoneEt.setText(savedInstanceState.getString("telefone"))
+                if (savedInstanceState.getString("celular") != null) {
+                    celularLl.visibility = View.VISIBLE
+                    celularEt.setText(savedInstanceState.getString("celular"))
+                }
+                sexoRg.check(savedInstanceState.getInt("sexo"))
+                dataNascimentoEt.setText(savedInstanceState.getString("dataNascimento"))
+                formacaoSp.setSelection(savedInstanceState.getInt("formacao"))
+                if (formacaoSp.selectedItemPosition == 0 || formacaoSp.selectedItemPosition == 1) {
+                    fundamentalMedioLl.visibility = View.VISIBLE
+                    anoFormacaoFundamentalMedioEt.setText(savedInstanceState.getString("anoFormacaoFundamentalMedio"))
+                } else if (formacaoSp.selectedItemPosition == 2 || formacaoSp.selectedItemPosition == 3) {
+                    graduacaoEspecializacaoLl.visibility = View.VISIBLE
+                    conclusaoGraduacaoEspecializacaoEt.setText(savedInstanceState.getString("anoConclusaoGraduacaoEspecializacao"))
+                    instituicaoGraduacaoEspecializacaoEt.setText(savedInstanceState.getString("instituicaoGraduacaoEspecializacao"))
+                } else {
+                    mestradoDoutoradoLl.visibility = View.VISIBLE
+                    conclusaoMestradoDoutoradoEt.setText(savedInstanceState.getString("anoConclusaoMestradoDoutorado"))
+                    instituicaoMestradoDoutoradoEt.setText(savedInstanceState.getString("instituicaoMestradoDoutorado"))
+                    monografiaMestradoDoutoradoEt.setText(savedInstanceState.getString("tituloMonografia"))
+                    orientadorMestradoDoutoradoEt.setText(savedInstanceState.getString("orientador"))
+                }
+            }
+
             adicionarCelularEfab.setOnClickListener {
                 if (celularLl.visibility == View.GONE) {
                     celularLl.visibility = View.VISIBLE
@@ -42,25 +74,36 @@ class MainActivity : AppCompatActivity() {
                     id: Long
                 ) {
 
-                    anoFormacaoFundamentalMedioEt.setText("")
-                    conclusaoGraduacaoEspecializacaoEt.setText("")
-                    instituicaoGraduacaoEspecializacaoEt.setText("")
-                    instituicaoMestradoDoutoradoEt.setText("")
-                    conclusaoMestradoDoutoradoEt.setText("")
-                    monografiaMestradoDoutoradoEt.setText("")
-                    orientadorMestradoDoutoradoEt.setText("")
                     if (position == 0 || position == 1) {
                         fundamentalMedioLl.visibility = View.VISIBLE
                         graduacaoEspecializacaoLl.visibility = View.GONE
                         mestradoDoutoradoLl.visibility = View.GONE
+
+                        conclusaoGraduacaoEspecializacaoEt.setText("")
+                        instituicaoGraduacaoEspecializacaoEt.setText("")
+                        instituicaoMestradoDoutoradoEt.setText("")
+                        conclusaoMestradoDoutoradoEt.setText("")
+                        monografiaMestradoDoutoradoEt.setText("")
+                        orientadorMestradoDoutoradoEt.setText("")
+
                     } else if (position == 2 || position == 3) {
                         graduacaoEspecializacaoLl.visibility = View.VISIBLE
                         fundamentalMedioLl.visibility = View.GONE
                         mestradoDoutoradoLl.visibility = View.GONE
+
+                        anoFormacaoFundamentalMedioEt.setText("")
+                        instituicaoMestradoDoutoradoEt.setText("")
+                        conclusaoMestradoDoutoradoEt.setText("")
+                        monografiaMestradoDoutoradoEt.setText("")
+                        orientadorMestradoDoutoradoEt.setText("")
                     } else {
                         mestradoDoutoradoLl.visibility = View.VISIBLE
                         fundamentalMedioLl.visibility = View.GONE
                         graduacaoEspecializacaoLl.visibility = View.GONE
+
+                        anoFormacaoFundamentalMedioEt.setText("")
+                        conclusaoGraduacaoEspecializacaoEt.setText("")
+                        instituicaoGraduacaoEspecializacaoEt.setText("")
                     }
                 }
 
@@ -160,11 +203,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             campos.add("Formação: $formacao")
-            /*
-            if (formacao.isNotEmpty()) {
-                formacao = formacao.substring(0, formacao.lastIndexOf(';'))
-                campos.add("Formação: $formacao")
-            }*/
 
             if (vagasInteresseEt.text.isNotEmpty())
                 campos.add("Vagas de interesse: ${vagasInteresseEt.text}")
@@ -172,6 +210,39 @@ class MainActivity : AppCompatActivity() {
             texto = campos.joinToString()
         }
         return texto
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        with (activityMainBinding) {
+            outState.putString("nome", nomeEt.text.toString())
+            outState.putString("email", emailEt.text.toString())
+            outState.putBoolean("receberAtualizacoesOportunidades", emailAtualizacaoSw.isChecked)
+            outState.putInt("tipoTelefone", telefoneRg.checkedRadioButtonId)
+            outState.putString("telefone", telefoneEt.text.toString())
+            outState.putString("celular", celularEt.text.toString())
+            outState.putInt("sexo", sexoRg.checkedRadioButtonId)
+            outState.putString("dataNascimento", dataNascimentoEt.text.toString())
+            outState.putInt("formacao", formacaoSp.selectedItemId.toInt())
+            if (formacaoSp.selectedItemPosition == 0 || formacaoSp.selectedItemPosition == 1) {
+                outState.putString("anoFormacaoFundamentalMedio",
+                    anoFormacaoFundamentalMedioEt.text.toString())
+            } else if (formacaoSp.selectedItemPosition == 2 || formacaoSp.selectedItemPosition == 3) {
+                outState.putString("anoConclusaoGraduacaoEspecializacao",
+                    conclusaoGraduacaoEspecializacaoEt.text.toString())
+                outState.putString("instituicaoGraduacaoEspecializacao",
+                    instituicaoGraduacaoEspecializacaoEt.text.toString())
+            } else {
+                outState.putString("anoConclusaoMestradoDoutorado",
+                      conclusaoMestradoDoutoradoEt.text.toString())
+                outState.putString("instituicaoMestradoDoutorado",
+                      instituicaoMestradoDoutoradoEt.text.toString())
+                outState.putString("tituloMonografia",
+                    monografiaMestradoDoutoradoEt.text.toString())
+                outState.putString("orientador", orientadorMestradoDoutoradoEt.text.toString())
+            }
+            outState.putString("vagasInteresse", vagasInteresseEt.text.toString())
+        }
     }
 
 }
