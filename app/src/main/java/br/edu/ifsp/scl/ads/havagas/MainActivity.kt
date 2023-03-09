@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                 emailAtualizacaoSw.isChecked =
                     savedInstanceState.getBoolean("receberAtualizacoesOportunidades") == true
                 telefoneEt.setText(savedInstanceState.getString("telefone"))
-                if (savedInstanceState.getString("celular") != null) {
+                if (savedInstanceState.getString("celular")?.isNotEmpty() == true) {
                     celularLl.visibility = View.VISIBLE
                     celularEt.setText(savedInstanceState.getString("celular"))
                 }
